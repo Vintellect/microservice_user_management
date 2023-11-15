@@ -18,15 +18,6 @@ instance_id = os.getenv("SPANNER_INSTANCE")
 database_id = os.getenv("SPANNER_DATABASE")
 # [END create_spanner]
 
-@app.route("/")
-def main():
-    database = spanner_client.instance(instance_id).database(database_id)
-    with database.snapshot() as snapshot:
-        cursor = snapshot.execute_sql("SELECT * FROM user;")
-    results = list(cursor)
-
-    return results
-
 @app.route("/isAdmin")
 def isAdmin():
     user_mail = request.args.get('mail')
@@ -40,3 +31,5 @@ def isAdmin():
     results_list=  list(cursor)
     is_admin = results_list[0][0] if results_list else False
     return jsonify(is_admin=is_admin)
+
+# [END app]
